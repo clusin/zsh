@@ -1,4 +1,4 @@
-export PATH=$HOME/bin:$HOME/.jenv/bin:/usr/local/bin:$PATH
+export PATH="$HOME/bin:/usr/local/bin:$PATH"
 
 export ZSH="/Users/dclusin/.zsh/.oh-my-zsh"
 
@@ -10,6 +10,16 @@ plugins=(git gradle gitignore mvn nvm pyenv rbenv jenv)
 
 export EDITOR='vim'
 
-source $ZSH/oh-my-zsh.sh
+export GOOGLE_APPLICATION_CREDENTIALS=/Users/dclusin/gc-creds.json
 
-echo SOURCED
+alias lsaf='ls -lAFGO'
+
+function options() {
+    PLUGIN_PATH="$ZSH/plugins/"
+    for plugin in $plugins; do
+        echo "\n\nPlugin: $plugin"; grep -r "^function \w*" $PLUGIN_PATH$plugin | awk '{print $2}' | sed 's/()//'| tr '\n' ', '; grep -r "^alias" $PLUGIN_PATH$plugin | awk '{print $2}' | sed 's/=.*//' |  tr '\n' ', '
+    done
+}
+
+source $ZSH/oh-my-zsh.sh
+source <(antibody init)
